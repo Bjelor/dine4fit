@@ -18,5 +18,10 @@
         android:id="@+id/detailFragment"
         android:name="com.bjelor.dine4fit.ui.detail.DetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="id"
+            app:argType="string"
+            android:defaultValue='""' />
+    </fragment>
 </navigation>

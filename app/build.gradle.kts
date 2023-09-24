@@ -5,6 +5,8 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
+    id("kotlin-kapt")
+    id("androidx.navigation.safeargs.kotlin")
     kotlin("kapt")
 }
 
@@ -16,11 +18,12 @@ android {
     compileSdk = 34
     buildFeatures {
         buildConfig = true
+        dataBinding = true
     }
 
     defaultConfig {
         applicationId = "com.bjelor.dine4fit"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -57,13 +60,13 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
 
-    // Hilt
-    implementation("com.google.dagger:hilt-android:2.44")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    // Coil
+    implementation("io.coil-kt:coil:2.4.0")
 
-    // Moshi
-    implementation("com.squareup.retrofit2:converter-moshi:2.4.0")
+    // Hilt
+    implementation("com.google.dagger:hilt-android:2.48")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
 
     // Navigation component
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.2")
@@ -74,6 +77,11 @@ dependencies {
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-simplexml:2.9.0") {
+        exclude(module = "stax")
+        exclude(module = "stax-api")
+        exclude(module = "xpp3")
+    }
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

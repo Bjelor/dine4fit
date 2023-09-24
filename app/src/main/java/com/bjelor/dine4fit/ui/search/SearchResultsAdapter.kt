@@ -1,11 +1,13 @@
 package com.bjelor.dine4fit.ui.search
 
-import android.view.View
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bjelor.dine4fit.domain.SearchResult
+import coil.load
+import com.bjelor.dine4fit.databinding.AdapterItemSearchResultBinding
+import com.bjelor.dine4fit.domain.model.SearchResult
 
 private val searchAdapterDiffCallback = object : DiffUtil.ItemCallback<SearchResult>() {
     override fun areItemsTheSame(oldItem: SearchResult, newItem: SearchResult): Boolean {
@@ -13,25 +15,44 @@ private val searchAdapterDiffCallback = object : DiffUtil.ItemCallback<SearchRes
     }
 
     override fun areContentsTheSame(oldItem: SearchResult, newItem: SearchResult): Boolean {
-        return oldItem.id == newItem.id && oldItem.name == newItem.name
+        return oldItem == newItem
     }
 }
 
-class SearchResultsAdapter : ListAdapter<SearchResult, SearchResultsAdapter.ViewHolder>(
+class SearchResultsAdapter(
+    private val onItemClick: (String) -> Unit
+) : ListAdapter<SearchResult, SearchResultsAdapter.ViewHolder>(
     searchAdapterDiffCallback
 ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        TODO("Not yet implemented")
+        val viewHolder = ViewHolder(
+            AdapterItemSearchResultBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
+
+        viewHolder.itemView.setOnClickListener {
+            val position = viewHolder.adapterPosition
+            onItemClick(getItem(position).id)
+        }
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        holder.bind(getItem(position))
     }
 
-    class ViewHolder(val itemView: View) : RecyclerView.ViewHolder(itemView) {
-        // TODO
-    }
+    class ViewHolder(
+        private val binding: AdapterItemSearchResultBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
+        fun bind(searchResult: SearchResult) {
+            binding.searchResult = searchResult
+            binding.thumbnmail.load(searchResult.thumbnailUrl)
+        }
+    }
 
 }
