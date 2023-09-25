@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Dine4fit</string>
     <string name="search_hint">Search for something…</string>
+    <string name="detail_protein_label">Protein</string>
+    <string name="detail_carbs_label">Carbs</string>
+    <string name="detail_fat_label">Fat</string>
 </resources>
